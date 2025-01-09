@@ -20,7 +20,7 @@ interface IWrappedA0GIBase {
     /**
      * @dev get the wA0GI address.
      */
-    function getWA0GI() external returns (address);
+    function getWA0GI() external view returns (address);
 
     /**
      * @dev set the cap for a minter.

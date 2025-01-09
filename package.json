@@ -4,16 +4,22 @@
   "license": "MIT",
   "scripts": {
     "build": "hardhat compile",
+    "fmt:ts": "prettier 'src/**/*.ts' '*.ts' -w",
     "fmt:sol": "prettier 'contracts/**/*.sol' -w"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-ignition": "^0.15.9",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/ignition-core": "^0.15.9",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "eslint": "8.34.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-no-only-tests": "3.1.0",
     "eslint-plugin-prettier": "4.2.1",
+    "ethers": "^6.13.5",
     "hardhat": "^2.22.2",
     "hardhat-abi-exporter": "^2.10.1",
     "prettier": "2.8.4",
@@ -23,5 +29,18 @@
     "solhint-plugin-prettier": "0.0.5",
     "ts-node": "^10.9.2",
     "typescript": "4.9.5"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
+    "@types/chai": "^4.2.0",
+    "@types/mocha": ">=9.1.0",
+    "chai": "^4.2.0",
+    "hardhat-gas-reporter": "^1.0.8",
+    "solidity-coverage": "^0.8.1",
+    "typechain": "^8.3.0"
   }
 }

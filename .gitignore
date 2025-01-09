@@ -1,3 +1,4 @@
 build
 node_modules
 abis
+typechain-types
