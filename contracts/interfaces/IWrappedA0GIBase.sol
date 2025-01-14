@@ -2,8 +2,8 @@
 pragma solidity >=0.8.0;
 
 struct Supply {
-    uint256 cap;
-    uint256 total;
+    uint cap;
+    uint total;
 }
 
 /**
@@ -28,7 +28,7 @@ interface IWrappedA0GIBase {
      * @param minter minter address
      * @param cap mint cap
      */
-    // function setMinterCap(address minter, uint256 cap) external;
+    // function setMinterCap(address minter, uint cap) external;
 
     /**
      * @dev get the mint supply of given address
@@ -43,7 +43,7 @@ interface IWrappedA0GIBase {
      * @param minter minter address
      * @param amount amount to mint
      */
-    function mint(address minter, uint256 amount) external;
+    function mint(address minter, uint amount) external;
 
     /**
      * @dev burn given amount of a0gi on behalf of minter, reduce corresponding amount from sender's mint supply.
@@ -51,5 +51,5 @@ interface IWrappedA0GIBase {
      * @param minter minter address
      * @param amount amount to burn
      */
-    function burn(address minter, uint256 amount) external;
+    function burn(address minter, uint amount) external;
 }

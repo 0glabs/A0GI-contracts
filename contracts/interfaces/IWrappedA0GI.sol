@@ -8,7 +8,7 @@ interface IWrappedA0GI {
     event Deposit(address indexed dst, uint wad);
     event Withdrawal(address indexed src, uint wad);
     event Mint(address indexed minter, address indexed dst, uint wad);
-    event Burn(address indexed minter, uint wad);
+    event Burn(address indexed minter, address indexed src, uint wad);
 
     // ERC-20 compatible
     function name() external view returns (string memory);
@@ -45,4 +45,8 @@ interface IWrappedA0GI {
     function mint(address recipient, uint wad) external;
 
     function burn(uint wad) external;
+
+    function burn(address src, uint wad) external;
+
+    function burnFrom(address src, uint wad) external;
 }

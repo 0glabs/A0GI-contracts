@@ -78,13 +78,35 @@ contract WrappedA0GI is IWrappedA0GI {
         emit Mint(msg.sender, recipient, wad);
     }
 
+    function _burnFrom(address src, uint wad) internal {
+        base.burn(msg.sender, wad);
+        if (src != msg.sender && allowance[src][msg.sender] != type(uint).max) {
+            require(allowance[src][msg.sender] >= wad);
+            allowance[src][msg.sender] -= wad;
+        }
+        balanceOf[src] -= wad;
+        emit Burn(msg.sender, src, wad);
+    }
+
     /**
      * @notice burn wad a0gi in this contract and burn corresponding WA0GI from sender.
      * @param wad amount to burn
      */
     function burn(uint wad) external {
-        base.burn(msg.sender, wad);
-        balanceOf[msg.sender] -= wad;
-        emit Burn(msg.sender, wad);
+        _burnFrom(msg.sender, wad);
+    }
+
+    /**
+     * @notice alternative burn function for minter contract integration
+     */
+    function burn(address src, uint wad) external {
+        _burnFrom(src, wad);
+    }
+
+    /**
+     * @notice alternative burn function for minter contract integration
+     */
+    function burnFrom(address src, uint wad) external {
+        _burnFrom(src, wad);
     }
 }
