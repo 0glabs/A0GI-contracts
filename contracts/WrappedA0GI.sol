@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "./interfaces/IWrappedA0GIBase.sol";
 import "./interfaces/IWrappedA0GI.sol";
 
 /**
@@ -12,8 +11,7 @@ contract WrappedA0GI is IWrappedA0GI {
     string public name = "Wrapped A0GI";
     string public symbol = "WA0GI";
     uint8 public decimals = 18;
-    IWrappedA0GIBase public base =
-        IWrappedA0GIBase(0x0000000000000000000000000000000000001002);
+    address public WRAPPED_A0GI_BASE = 0x0000000000000000000000000000000000001002;
 
     mapping(address => uint) public balanceOf;
     mapping(address => mapping(address => uint)) public allowance;
@@ -47,15 +45,11 @@ contract WrappedA0GI is IWrappedA0GI {
         return transferFrom(msg.sender, dst, wad);
     }
 
-    function transferFrom(
-        address src,
-        address dst,
-        uint wad
-    ) public returns (bool) {
-        require(balanceOf[src] >= wad);
+    function transferFrom(address src, address dst, uint wad) public returns (bool) {
+        require(balanceOf[src] >= wad, "src insufficient balance");
 
         if (src != msg.sender && allowance[src][msg.sender] != type(uint).max) {
-            require(allowance[src][msg.sender] >= wad);
+            require(allowance[src][msg.sender] >= wad, "insufficient allowance");
             allowance[src][msg.sender] -= wad;
         }
 
@@ -73,15 +67,21 @@ contract WrappedA0GI is IWrappedA0GI {
      * @param wad amount to mint
      */
     function mint(address recipient, uint wad) external {
-        base.mint(msg.sender, wad);
+        (bool success, ) = address(WRAPPED_A0GI_BASE).call(
+            abi.encodeWithSignature("mint(address,uint256)", msg.sender, wad)
+        );
+        require(success, "wrapped a0gi base mint failed");
         balanceOf[recipient] += wad;
         emit Mint(msg.sender, recipient, wad);
     }
 
     function _burnFrom(address src, uint wad) internal {
-        base.burn(msg.sender, wad);
+        (bool success, ) = address(WRAPPED_A0GI_BASE).call(
+            abi.encodeWithSignature("burn(address,uint256)", msg.sender, wad)
+        );
+        require(success, "wrapped a0gi base burn failed");
         if (src != msg.sender && allowance[src][msg.sender] != type(uint).max) {
-            require(allowance[src][msg.sender] >= wad);
+            require(allowance[src][msg.sender] >= wad, "insufficient allowance");
             allowance[src][msg.sender] -= wad;
         }
         balanceOf[src] -= wad;

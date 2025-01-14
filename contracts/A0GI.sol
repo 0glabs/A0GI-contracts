@@ -5,11 +5,7 @@ import {ERC20PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/toke
 import {AccessControlEnumerableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/extensions/AccessControlEnumerableUpgradeable.sol";
 import "./interfaces/IA0GI.sol";
 
-contract A0GI is
-    IA0GI,
-    ERC20PausableUpgradeable,
-    AccessControlEnumerableUpgradeable
-{
+contract A0GI is IA0GI, ERC20PausableUpgradeable, AccessControlEnumerableUpgradeable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
@@ -19,8 +15,7 @@ contract A0GI is
     }
 
     // keccak256(abi.encode(uint(keccak256("0g.storage.A0GI")) - 1)) & ~bytes32(uint(0xff))
-    bytes32 private constant A0GIStorageLocation =
-        0x85564ca65afe3149da79fa8a284634414820c29801f5b1f6e8c38565f0c97100;
+    bytes32 private constant A0GIStorageLocation = 0x85564ca65afe3149da79fa8a284634414820c29801f5b1f6e8c38565f0c97100;
 
     function _getA0GIStorage() private pure returns (A0GIStorage storage $) {
         assembly {
@@ -28,10 +23,7 @@ contract A0GI is
         }
     }
 
-    function initialize(
-        string memory _name,
-        string memory _symbol
-    ) external initializer {
+    function initialize(string memory _name, string memory _symbol) external initializer {
         __ERC20Pausable_init();
         __ERC20_init(_name, _symbol);
 
@@ -49,10 +41,7 @@ contract A0GI is
      * - the caller must have the `MINTER_ROLE`.
      */
     function mint(address to, uint amount) external {
-        require(
-            hasRole(MINTER_ROLE, _msgSender()),
-            "A0GI: must have minter role to mint"
-        );
+        require(hasRole(MINTER_ROLE, _msgSender()), "A0GI: must have minter role to mint");
         A0GIStorage storage $ = _getA0GIStorage();
         Supply storage s = $.minterSupply[msg.sender];
         s.total += amount;
@@ -60,17 +49,12 @@ contract A0GI is
         _mint(to, amount);
     }
 
-    function minterSupply(
-        address minter
-    ) external view returns (Supply memory) {
+    function minterSupply(address minter) external view returns (Supply memory) {
         A0GIStorage storage $ = _getA0GIStorage();
         return $.minterSupply[minter];
     }
 
-    function setMinterCap(
-        address minter,
-        uint cap
-    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setMinterCap(address minter, uint cap) external onlyRole(DEFAULT_ADMIN_ROLE) {
         A0GIStorage storage $ = _getA0GIStorage();
         $.minterSupply[minter].cap = cap;
         emit MinterCapUpdated(minter, cap);
@@ -79,10 +63,7 @@ contract A0GI is
     function _burnFrom(address account, uint amount) internal {
         A0GIStorage storage $ = _getA0GIStorage();
         Supply storage s = $.minterSupply[_msgSender()];
-        require(
-            s.total >= amount,
-            "UpgradeableERC20: burn amount exceeds minter total supply"
-        );
+        require(s.total >= amount, "UpgradeableERC20: burn amount exceeds minter total supply");
         unchecked {
             s.total -= amount;
         }

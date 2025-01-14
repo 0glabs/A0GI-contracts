@@ -21,20 +21,13 @@ interface IWrappedA0GI {
 
     function balanceOf(address account) external view returns (uint);
 
-    function allowance(
-        address owner,
-        address spender
-    ) external view returns (uint);
+    function allowance(address owner, address spender) external view returns (uint);
 
     function approve(address spender, uint wad) external returns (bool);
 
     function transfer(address recipient, uint wad) external returns (bool);
 
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint wad
-    ) external returns (bool);
+    function transferFrom(address sender, address recipient, uint wad) external returns (bool);
 
     // Deposit & Withdraw
     function deposit() external payable;
