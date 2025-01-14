@@ -10,19 +10,17 @@ task("tx:raw", "get raw transaction")
     const wallet = new ethers.Wallet(taskArgs.key);
 
     const tx = {
-        type:     0,
-        nonce:    0,
-        gasPrice: ethers.parseUnits("100", "gwei"),
-        gasLimit: 1000000n,
-        to:       null,
-        value:    0,
-        data:     data,
-        chainId:  0n
+      type: 0,
+      nonce: 0,
+      gasPrice: ethers.parseUnits("100", "gwei"),
+      gasLimit: 1000000n,
+      to: null,
+      value: 0,
+      data: data,
+      chainId: 0n,
     };
 
-    const signedTx = await wallet.signTransaction(
-      ethers.Transaction.from(tx)
-    );
+    const signedTx = await wallet.signTransaction(ethers.Transaction.from(tx));
 
     console.log("Raw Transaction (without chainId):", signedTx);
     /**
