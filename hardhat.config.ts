@@ -13,6 +13,7 @@ const { NODE_URL, DEPLOYER_KEY, ETHERSCAN_API_KEY } = process.env;
 import "./src/tasks/access";
 import "./src/tasks/upgrade";
 import "./src/tasks/wa0gi";
+import "./src/tasks/wa0gicct";
 
 // 0xa223d305bc8147a75761f7f72f983e5eef867bd4
 const DEFAULT_DEPLOYER = "02c3357d2ae0a59e18f62ab69093cc22eac1a25c9f78af7f78650939ecda5f62";
